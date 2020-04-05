@@ -1,6 +1,13 @@
-echo "# SoW" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git remote add origin https://github.com/KyuhyoJeon/SoW.git
-git push -u origin master
+SoW; Sound of Writing
+
+문서 이미지캡쳐 텍스트 추출 및 음성변환 후 오디오출력 프로그램
+
+2020캡스톤디자인
+
+2015083054 전규효
+2016038016 이수연
+2016038010 이지현
+
+OCR 및 TTS 오픈소스 활용
+
+Python 프로그래밍 언어 사용

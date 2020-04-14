@@ -11,3 +11,5 @@ SoW; Sound of Writing
 OCR 및 TTS 오픈소스 활용
 
 Python 프로그래밍 언어 사용
+
+네이버 설문조사 폼: http://naver.me/5X3z5OuY

@@ -54,8 +54,8 @@ Sample Output 1
 0
 There are  days of data required so the first day a notice might go out is day . Our trailing expenditures are  with a median of  The client spends  which is less than  so no notification is sent.
 */
-
 #include <bits/stdc++.h>
+#include <map>
 
 using namespace std;
 
@@ -63,50 +63,63 @@ vector<string> split_string(string);
 
 // Complete the activityNotifications function below.
 int activityNotifications(vector<int> expenditure, int d) {
-    int noticnt =0, dcnt =0, mid =0;
+    int noticnt, dcnt=0, mid=0, midval=0;
     vector<int> tmparr(201);
 
-    for(int i=0; i<d; i++){
+    for(int i=0; i<d; i++)
+    {
         tmparr[expenditure[i]]++;
+        cout << "*";
     }
-
+    cout << "tmparr반복 횟수"<< endl;
+    
     for(int i=d; i<expenditure.size(); i++)
     {
-        dcnt =0;
-        mid = 0;
-        if(d%2 != 0)
+        cout << "noticnt" << i-d+1 << "번 반복" << endl;
+        mid = d/2;
+        if(d%2 == 1)
         {
-            for(int j=0; j<tmparr.size(); j++){
+            for(int j=0; j<tmparr.size(); j++)
+            {
                 dcnt += tmparr[j];
-                if(dcnt > d/2)
+                if(tmparr[j]==1)
+                cout << "*";
+                if(dcnt > mid)
                 {
-                    mid = j*2;
+                    midval = j*2;
+                    dcnt =0;
+                    cout << "dcnt반복 횟수" << endl;
                     break;
                 }
             }
         }
         else
         {
+            int mid1=0, mid2=0;
             for(int j=0; j<tmparr.size(); j++)
             {
                 dcnt += tmparr[j];
-                if(dcnt >= d/2)
-                    mid = j;
-                if(dcnt > d/2)
+                if(tmparr[j]==1)
+                cout << "*";
+                if(mid1==0 && dcnt >= mid)
+                    mid1 = j;
+                if(mid2==0 && dcnt > mid)
                 {
-                    mid = mid + j;
+                    mid2 = j;
+                    dcnt =0;
+                    midval = mid1+mid2;
+                    cout << "dcnt반복 횟수" << endl;
                     break;
                 }
             }
         }
 
-        if(mid <= expenditure[i])
+        if(expenditure[i]>=midval)
             noticnt++;
         
         tmparr[expenditure[i-d]]--;
         tmparr[expenditure[i]]++;
     }
-
     return noticnt;
 }
 

@@ -50,56 +50,59 @@ using namespace std;
 
 vector<string> split_string(string);
 
-// Complete the countInversions function below.
+long long merge(vector<int>& p_vArr, int p_iLeft, int p_iRight, int p_iMid) {
+    long long iNumOfInversions = 0;
 
-long merge(vector<int> arr, int left, int right) {
-    int mid = (left+right)/2;
-    vector<int> temparr(arr.size());
-    int pt =left;
-    int lp = left;
-    int rp = mid+1;
-    long count =0;
-    
-    while(lp <= mid && rp <= right)
-    {
-        if(arr[lp] > arr[rp])
-        {
-            temparr[pt++] = arr[rp++];
-            count += mid - lp + 1;
+    int i, j, k, iTemp[p_iRight - p_iLeft + 1];
+    i = p_iLeft;
+    j = p_iMid + 1;
+    k = 0;
+
+    while(i <= p_iMid && j <= p_iRight) {
+        if(p_vArr[i] <= p_vArr[j]) {
+            iTemp[k] = p_vArr[i];
+            k++;
+            i++;
         }
-        else
-            temparr[pt++] = arr[lp++];
-    }
-    while(lp<=mid)
-    {
-        temparr[pt++] = arr[lp++];
-    }
-    while(rp<=right)
-    {
-        temparr[pt++] = arr[rp++];
+        else {
+            iTemp[k] = p_vArr[j];
+            k++;
+            j++;
+            iNumOfInversions += (p_iMid - i + 1);
+        }
     }
 
-    for(int i=left; i<=right; i++)
-    {
-        arr[i] = temparr[i];
+    while (i <= p_iMid) {
+        iTemp[k] = p_vArr[i];
+        k++;
+        i++;
     }
-    return count;
+
+    while (j <= p_iRight) {
+        iTemp[k] = p_vArr[j];
+        k++;
+        j++;
+    }
+
+    for(i=p_iLeft; i<= p_iRight; i++) {
+        p_vArr[i] = iTemp[i - p_iLeft];
+    }
+
+    return iNumOfInversions;
 }
 
-long mergeSort(vector<int> arr, int left, int right) {
-    if(left == right)
-        return 0;
-    
-    int mid = (left+right)/2;
-    long count =0;
+long long mergeSort(vector<int>& p_vArr, int p_iLeft, int p_iRight) {
+    int iMid = 0;
+    if(p_iLeft < p_iRight) {
+        iMid = (p_iLeft + p_iRight) / 2;
 
-    count = mergeSort(arr, left, mid);
-    count += mergeSort(arr, mid+1, right);
-    count += merge(arr, left, right);
+        return mergeSort(p_vArr, p_iLeft, iMid) + mergeSort(p_vArr, iMid+1, p_iRight) + merge(p_vArr, p_iLeft, p_iRight, iMid);
+    }
 
-    return count;
+    return 0;
 }
 
+// Complete the countInversions function below.
 long countInversions(vector<int> arr) {
     return mergeSort(arr, 0, arr.size()-1);
 }
